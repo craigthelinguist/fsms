@@ -8,7 +8,7 @@ edges(Graph, Events) :-
    bagof(Event, S1^S2^member(edge(S1, Event, S2), Graph), Events).
 
 % Gather up the nodes in a graph.
-npdes(Graph, States) :-
+nodes(Graph, States) :-
    setof(S1,
          E^S2^(member(edge(S1, E, S2), Graph) ; member(edge(S2, E, S1), Graph)),
          States).
@@ -27,6 +27,9 @@ parallelEdge(Graph, edge(A, E, B)) :-
 start((Start:_:_), Start).
 finish((_:Finish:_), Finish).
 graph((_:_:Graph), Graph).
+
+% This is our representation of the special "epsilon-transition".
+epsilon(epsilon).
 
 % A FSM is non-deterministic if its graph contains a parallel edge.
 ndfa(FSM) :-
