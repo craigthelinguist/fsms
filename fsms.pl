@@ -13,6 +13,18 @@ nodes(Graph, States) :-
          E^S2^(member(edge(S1, E, S2), Graph) ; member(edge(S2, E, S1), Graph)),
          States).
 
+% Return the nodes neighbouring a given node.
+neighbours(Graph, Node, Neighbours) :-
+   setof(Dest, E^member(edge(Node, E, Dest), Graph), Neighbours), !.
+
+neighbours(_, _, []) :- !.
+
+% Return the edges outgoing from a node.
+outgoing(Graph, Node, Edges) :-
+   setof(Edge, Dest^member(edge(Node, Edge, Dest), Graph), Edges), !.
+
+outgoing(_, _, []) :- !.
+
 % An edge is parallel if it occurs more than once in the Graph.
 parallelEdge(Graph, edge(A, E, B)) :-
    member(edge(A, E, B), Graph),
